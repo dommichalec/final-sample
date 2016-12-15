@@ -6,7 +6,7 @@ module ApplicationHelper
     if title.strip.empty?
       base_title
     else
-      title.strip + " | " base_title}
+      title.strip + " | " + base_title
     end
   end
 end
