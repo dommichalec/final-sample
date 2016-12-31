@@ -39,15 +39,15 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
+  test "email should be downcased and stripped" do
+    @user.email = "DOMJMICH@EXAMPLE.COM     "
+    @user.save
+    assert_equal "domjmich@example.com", @user.email
+  end
+
   test "email should be less than 75 characters long" do
     @user.email = ("a"*64).+("@example.com")
     assert_not @user.valid?
-  end
-
-  test "email should be downcased and stripped" do
-    @user.email = "DOM@EXAMPLE.COM     "
-    @user.save
-    assert_equal "dom@example.com", @user.email
   end
 
   test "email validation should accept valid addresses" do
@@ -70,18 +70,30 @@ class UserTest < ActiveSupport::TestCase
 
   test "email addresses should be unique" do
     duplicate_user = @user.dup
-    duplicate_user.email = @user.email.upcase
+    duplicate_user.email = @user.email
     @user.save
     assert_not duplicate_user.valid?
-  end
-
-  test "user email should not be non-blank" do
-    @user.password_confirmation = @user.password = " ".*(6)
-    assert_not @user.valid?
   end
 
   test "password should have a minimum length" do
     @user.password_confirmation = @user.password = "a" * 5
     assert_not @user.valid?
+  end
+
+  test "a user should not be archived upon creation" do
+    @user.save
+    assert @user.archived == false
+  end
+
+  test "archival_for method should archive a user" do
+    archival_for(@user)
+    @user.save
+    assert_equal @user.archived, true
+  end
+
+  test "unarchival_for method should unarchive a user" do
+    unarchival_for(@user)
+    @user.save
+    assert_equal @user.archived, false
   end
 end

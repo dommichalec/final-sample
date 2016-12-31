@@ -1,2 +1,17 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<% provide(:title, "#{@user.full_name}") %>
+<div class="row">
+  <aside class="col-md-4">
+    <section class="user_info">
+      <h1>
+        <%= gravatar_for(@user, size: 120) %>
+        <%= @user.full_name %>
+      </h1>
+    </section>
+  </aside>
+</div>
+<% if @user.archived? %>
+  <%= link_to "Unarchive my account", unarchive_user_path(@user), method: :patch %>
+<% else %>
+  <%= link_to "Archive my account", archive_user_path(@user), method: :patch,
+      data: { confirm: "Clicking 'OK' will archive your account. If you wish to fully delete your account, send an email and we'll fulfill your request within 24 hours. No questions asked!" } %>
+<% end %>
