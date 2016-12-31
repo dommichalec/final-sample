@@ -34,14 +34,14 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     archival_for(@user)
     @user.save
-    redirect_to root_path
+    redirect_to user_path(@user)
   end
 
   def unarchive
     @user = User.find(params[:id])
     unarchival_for(@user)
     @user.save
-    redirect_to root_path
+    redirect_to user_path(@user)
   end
 
   private

@@ -6,8 +6,8 @@ Rails.application.routes.draw do
   get "/signup",  to: "users#new",                    as: 'signup'
   resources :users do
     member do
-      patch :archive
-      patch :unarchive
+      patch :archive # /users/:id/archive, to: users#archive , as: archive_user
+      patch :unarchive # /users/:id/unarchive to: users#unarchive, as: unarchive_user
     end
   end
 end
