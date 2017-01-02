@@ -15,7 +15,8 @@ class UsersController < ApplicationController
     # same as @user = User.new(params[:user]), but allows for mass-assignment
     @user = User.new(user_params)
     if @user.save
-      redirect_to user_url(@user)
+      flash[:success] = "Welcome to the Sample Application, #{@user.first_name}!"
+      redirect_to @user # ideomatically correct way of writing user_url(@user)
     else
       render 'new'
     end
@@ -34,14 +35,16 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     archival_for(@user)
     @user.save
-    redirect_to user_path(@user)
+    flash[:warning] = "Your account has been successfully archived."
+    redirect_to @user # ideomatically correct way of writing user_url(@user)
   end
 
   def unarchive
     @user = User.find(params[:id])
     unarchival_for(@user)
     @user.save
-    redirect_to user_path(@user)
+    flash[:success] = "Welcome back to the sample application, #{@user.first_name}!"
+    redirect_to @user # ideomatically correct way of writing user_url(@user)
   end
 
   private

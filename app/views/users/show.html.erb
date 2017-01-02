@@ -12,6 +12,5 @@
 <% if @user.archived? %>
   <%= link_to "Unarchive my account", unarchive_user_path(@user), method: :patch %>
 <% else %>
-  <%= link_to "Archive my account", archive_user_path(@user), method: :patch,
-      data: { confirm: "Clicking 'OK' will archive your account. If you wish to fully delete your account, send an email and we'll fulfill your request within 24 hours. No questions asked!" } %>
+  <%= link_to "Archive my account", archive_user_path(@user), method: :patch %>
 <% end %>
