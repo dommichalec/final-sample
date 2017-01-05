@@ -9,4 +9,14 @@ module ApplicationHelper
       title.strip + " | " + base_title
     end
   end
+
+  # use to change any object with a archived attr from unarchived to archived
+  def archival_for(object)
+    object.archived = true
+  end
+
+  # use to change any object with a archived attr from archived to unarchived
+  def unarchival_for(object)
+    object.archived = false
+  end
 end
