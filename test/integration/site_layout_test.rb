@@ -15,6 +15,6 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
 
   test "signup path should render title" do
     get signup_path
-    assert_select "title", full_title("Sign up") 
+    assert_select "title", full_title("Sign up")
   end
 end

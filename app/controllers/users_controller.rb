@@ -1,10 +1,11 @@
 # rails g controller Users index show new create edit update destroy
 class UsersController < ApplicationController
+  before_action :set_user, only: [:show, :edit, :update, :delete, :archive, :unarchive]
+
   def index
   end
 
   def show
-    @user = User.find(params[:id])
   end
 
   def new
@@ -15,6 +16,7 @@ class UsersController < ApplicationController
     # same as @user = User.new(params[:user]), but allows for mass-assignment
     @user = User.new(user_params)
     if @user.save
+      sign_in(@user)
       flash[:success] = "Welcome to the sample application, #{@user.first_name}!"
       redirect_to @user # ideomatically correct way of writing user_url(@user)
     else
@@ -32,7 +34,6 @@ class UsersController < ApplicationController
   end
 
   def archive
-    @user = User.find(params[:id])
     archival_for(@user)
     @user.save
     flash[:warning] = "Your account has been successfully archived."
@@ -40,7 +41,6 @@ class UsersController < ApplicationController
   end
 
   def unarchive
-    @user = User.find(params[:id])
     unarchival_for(@user)
     @user.save
     flash[:success] = "Welcome back to the sample application, #{@user.first_name}!"
@@ -52,5 +52,9 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :password,
                    :password_confirmation)
+  end
+
+  def set_user
+    @user = User.find(params[:id])
   end
 end

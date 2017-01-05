@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  # include SessionsHelper for use of session-related methods across various controllers
+  include SessionsHelper
 
   # use to change any object with a archived attr from unarchived to archived
   def archival_for(object)
