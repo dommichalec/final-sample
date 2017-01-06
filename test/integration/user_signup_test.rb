@@ -10,6 +10,8 @@ class UserSignupTest < ActionDispatch::IntegrationTest
                                      password:              "foo",
                                      password_confirmation: "bar" } }
     end
+    assert_template 'users/new'
+    assert !is_logged_in?
   end
 
   test "a successful sign up attempt should add one user to the db" do
@@ -22,6 +24,7 @@ class UserSignupTest < ActionDispatch::IntegrationTest
                                          password_confirmation: "password" } }
     end
     follow_redirect!
+    assert_not flash.empty?
     assert_template 'users/show'
     assert is_logged_in?
   end
