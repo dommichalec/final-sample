@@ -3,4 +3,5 @@ class ApplicationController < ActionController::Base
   # include SessionsHelper for use of session-related methods across various controllers
   include ApplicationHelper
   include SessionsHelper
+
 end
