@@ -1,4 +1,4 @@
-# rails g integration_test user_edit_test
+# rails g integration_test user_edit
 require 'test_helper'
 
 class UserEditTest < ActionDispatch::IntegrationTest

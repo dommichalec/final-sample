@@ -1,6 +1,5 @@
 class SessionsController < ApplicationController
-  include SessionsHelper
-  
+
   def new
   end
 
@@ -9,7 +8,7 @@ class SessionsController < ApplicationController
     if find_and_authenticate(user)
       sign_in(user)
       flash[:success] = "Welcome back, #{user.first_name}!"
-      redirect_to user_url(user)
+      redirect_back_or(user)
     elsif user.nil?
       flash.now[:danger] = %Q[Hmm... we don't have a user with that email address in our system. <a href= "/signup"> Sign up here</a> to get started.]
       render 'new'

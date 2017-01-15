@@ -1,8 +1,13 @@
 # rails g controller Users index show new create edit update destroy
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :delete, :archive, :unarchive]
+  # before filters
+  before_action :set_user, except: [:index, :new, :create]
+  before_action :require_login, only: [:edit, :update, :destroy]
+  before_action :require_correct_user, only: [:edit, :update]
+  before_action :require_admin_user, only: :destroy
 
   def index
+    @users = User.paginate(page: params[:page])
   end
 
   def show
@@ -25,7 +30,6 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find_by(id: params[:id])
   end
 
   def update
@@ -38,6 +42,9 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    User.find(params[:id]).destroy
+    flash[:success] = "User deleted"
+    redirect_to users_url
   end
 
   def archive
@@ -62,6 +69,26 @@ class UsersController < ApplicationController
   end
 
   def set_user
-    @user = User.find(params[:id])
+    @user = User.find_by(id: params[:id])
+  end
+
+  def require_login
+    unless logged_in?
+      store_location
+      flash[:danger] = "Please log in first!"
+      redirect_to login_url
+    end
+  end
+
+  def require_correct_user
+    @user = User.find_by(id: params[:id])
+    redirect_to root_url unless current_user?(@user)
+  end
+
+  def require_admin_user
+    unless current_user.admin?
+      redirect_to(root_url)
+      flash[:danger] = "You do not have authorization to take that action."
+    end
   end
 end
