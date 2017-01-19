@@ -11,6 +11,8 @@ class UsersController < ApplicationController
   end
 
   def show
+    @user = User.find_by(id: params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page])
   end
 
   def new
@@ -63,6 +65,8 @@ class UsersController < ApplicationController
 
   private
 
+  # should only be able to manipulate first_name, last_name, email, and password digest
+  # through the web
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :password,
                    :password_confirmation)
@@ -70,14 +74,6 @@ class UsersController < ApplicationController
 
   def set_user
     @user = User.find_by(id: params[:id])
-  end
-
-  def require_login
-    unless logged_in?
-      store_location
-      flash[:danger] = "Please log in first!"
-      redirect_to login_url
-    end
   end
 
   def require_correct_user

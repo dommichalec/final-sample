@@ -27,11 +27,3 @@ malory:
   email: malory@example.gov
   password_digest: <%= User.digest('password1') %>
   archived: false
-
-<% 30.times do |n| %>
-  user_<%= n %>:
-    first_name:  <%= "First#{n}" %>
-    last_name:   <%= "Last#{n}" %>
-    email: <%= "user-#{n}@example.com" %>
-    password_digest: <%= User.digest('password') %>
-<% end %>

@@ -14,4 +14,5 @@ Rails.application.routes.draw do
       patch :unarchive # /users/:id/unarchive to: users#unarchive, as: unarchive_user
     end
   end
+  resources :microposts, only: [:create, :destroy]
 end

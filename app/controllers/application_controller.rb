@@ -4,4 +4,12 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   include SessionsHelper
 
+  def require_login
+    unless logged_in?
+      store_location
+      flash[:danger] = "Please log in first!"
+      redirect_to login_url
+    end
+  end
+
 end

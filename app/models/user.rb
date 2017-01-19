@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many :microposts, dependent: :destroy
 
   before_save { self.first_name = first_name.strip.downcase.titleize}
   before_save { self.last_name = last_name.strip.downcase.titleize}
