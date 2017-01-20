@@ -22,6 +22,12 @@ class User < ApplicationRecord
     archived == true
   end
 
+  # Defines a proto-feed
+  # See "following users" for full implementation
+  def feed
+    Micropost.where("user_id = ?", id)
+  end
+
   # Returns the hash digest of the given string.
   def User.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :

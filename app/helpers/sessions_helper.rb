@@ -31,6 +31,7 @@ module SessionsHelper
   # returns true if the user passed as a parameter is also the currently signed
   # in user
   def current_user?(user)
+    user = User.find_by(id: params[:id])
     user == current_user
   end
 

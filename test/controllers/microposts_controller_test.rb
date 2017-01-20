@@ -19,4 +19,11 @@ class MicropostsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to login_url
   end
+
+  test "should not be able to delete the micropost of another user" do
+    log_in_as(users(:dom))
+    assert_no_difference Micropost.count do
+      delete :destroy, id: micropost(:cat_video)
+    end
+  end
 end
